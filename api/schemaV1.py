@@ -8,7 +8,7 @@ from graphene_django.types import DjangoObjectType
 from graphene_django.fields import DjangoConnectionField
 
 from django.contrib.auth.models import User
-from music_galery.models import Album, Song
+from music_galery.models import Band, Album, Song
 
 
 class UserType(DjangoObjectType):
@@ -18,7 +18,7 @@ class UserType(DjangoObjectType):
     class Meta:
         model = User
         only_fields = (
-            'full_name', 'albums', 'composed_songs', 'produced_albums')
+            'full_name', 'bands', 'composed_songs', 'produced_albums')
 
 
 class BandType(DjangoObjectType):
@@ -27,7 +27,7 @@ class BandType(DjangoObjectType):
     class Meta:
         model = Band
         only_fields = (
-            'name', 'artists')
+            'name', 'artists', 'albums')
 
 class AlbumType(DjangoObjectType):
     pk = graphene.Int()
@@ -35,7 +35,7 @@ class AlbumType(DjangoObjectType):
     class Meta:
         model = Album
         only_fields = (
-            'producer', 'title', 'release_date')
+            'title', 'songs', 'producer', 'release_date')
 
 
 class SongType(DjangoObjectType):
@@ -55,6 +55,15 @@ class Query(graphene.ObjectType):
 
     def resolve_users(self, info, **kwargs):
         return User.objects.all()
+
+    def resolve_bands(self, info, **kwargs):
+        return Band.objects.all()
+
+    def resolve_albums(self, info, **kwargs):
+        return Album.objects.all()
+
+    def resolve_songs(self, info, **kwargs):
+        return Song.objects.all()
 
 
 schema = graphene.Schema(query=Query, auto_camelcase=False)
