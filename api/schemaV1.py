@@ -11,6 +11,13 @@ from django.contrib.auth.models import User
 from music_galery.models import Band, Album, Song
 
 
+# class Date(graphene.Date):
+
+#     @staticmethod
+#     def serialize(dt):
+#         return dt.strftime('%m/%Y')
+
+
 class UserType(DjangoObjectType):
     pk = graphene.Int()
     full_name = graphene.String(source='get_full_name')
@@ -18,7 +25,7 @@ class UserType(DjangoObjectType):
     class Meta:
         model = User
         only_fields = (
-            'full_name', 'bands', 'composed_songs', 'produced_albums')
+            'full_name', 'bands')
 
 
 class BandType(DjangoObjectType):
@@ -31,6 +38,7 @@ class BandType(DjangoObjectType):
 
 class AlbumType(DjangoObjectType):
     pk = graphene.Int()
+    # release_date = Date()
 
     class Meta:
         model = Album
