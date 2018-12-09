@@ -3,9 +3,10 @@ from django.conf import settings
 
 
 class Band(models.Model):
-    artists = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bands')
+    artists = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='bands')
     name = models.CharField(max_length=255)
-    
+
 
 class Album(models.Model):
     band = models.ForeignKey(Band, models.CASCADE, related_name='albums')

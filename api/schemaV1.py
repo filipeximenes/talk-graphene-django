@@ -1,11 +1,9 @@
-from django.db import models
+"""
+Basic querying and custom scalars
+"""
 
 import graphene
-from graphene import relay
-from graphene.types import Scalar
-from graphene_django.converter import convert_django_field
 from graphene_django.types import DjangoObjectType
-from graphene_django.fields import DjangoConnectionField
 
 from django.contrib.auth.models import User
 from music_galery.models import Band, Album, Song
@@ -36,6 +34,7 @@ class BandType(DjangoObjectType):
         only_fields = (
             'name', 'artists', 'albums')
 
+
 class AlbumType(DjangoObjectType):
     pk = graphene.Int()
     # release_date = Date()
@@ -43,7 +42,7 @@ class AlbumType(DjangoObjectType):
     class Meta:
         model = Album
         only_fields = (
-            'title', 'songs', 'producer', 'release_date')
+            'title', 'songs', 'release_date', 'band')
 
 
 class SongType(DjangoObjectType):
@@ -52,7 +51,7 @@ class SongType(DjangoObjectType):
     class Meta:
         model = Song
         only_fields = (
-            'title', 'composer')
+            'title', 'album')
 
 
 class Query(graphene.ObjectType):
