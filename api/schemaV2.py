@@ -7,7 +7,10 @@ from graphene_django.types import DjangoObjectType
 
 from django.contrib.auth.models import User
 from music_galery.models import Band, Album, Song
-from .data_loaders import user_loader, band_loader, album_loader, song_loader
+from .data_loaders import (
+    users_query, bands_query, albums_query, songs_query,
+    user_loader, band_loader, album_loader, song_loader
+)
 
 
 class UserType(DjangoObjectType):
@@ -76,16 +79,16 @@ class Query(graphene.ObjectType):
     songs = graphene.List(SongType)
 
     def resolve_users(self, info, **kwargs):
-        return User.objects.all()
+        return users_query
 
     def resolve_bands(self, info, **kwargs):
-        return Band.objects.all()
+        return bands_query
 
     def resolve_albums(self, info, **kwargs):
-        return Album.objects.all()
+        return albums_query
 
     def resolve_songs(self, info, **kwargs):
-        return Song.objects.all()
+        return songs_query
 
 
 schema = graphene.Schema(query=Query, auto_camelcase=False)
