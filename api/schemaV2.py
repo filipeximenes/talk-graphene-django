@@ -79,16 +79,16 @@ class Query(graphene.ObjectType):
     songs = graphene.List(SongType)
 
     def resolve_users(self, info, **kwargs):
-        return users_query
+        return users_query()
 
     def resolve_bands(self, info, **kwargs):
-        return bands_query
+        return bands_query()
 
     def resolve_albums(self, info, **kwargs):
-        return albums_query
+        return albums_query()
 
     def resolve_songs(self, info, **kwargs):
-        return songs_query
+        return songs_query()
 
 
 schema = graphene.Schema(query=Query, auto_camelcase=False)

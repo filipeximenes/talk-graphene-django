@@ -25,7 +25,6 @@ query {
 }
 """
 
-
 reset_queries()
 result = schemaV1.execute(query)
 print('V1 queries: ', len(connection.queries))
@@ -34,5 +33,3 @@ print('V1 queries: ', len(connection.queries))
 reset_queries()
 result = schemaV2.execute(query)
 print('V2 queries: ', len(connection.queries))
-
-

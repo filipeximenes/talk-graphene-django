@@ -5,10 +5,17 @@ from django.contrib.auth.models import User
 from music_galery.models import Band, Album, Song
 
 
-users_query = User.objects.prefetch_related('bands').all()
-bands_query = Band.objects.prefetch_related('artists', 'albums').all()
-albums_query = Album.objects.select_related('band').prefetch_related('songs').all()
-songs_query = Song.objects.select_related('album').all()
+def users_query():
+    return User.objects.prefetch_related('bands')
+
+def bands_query(): 
+    return Band.objects.prefetch_related('artists', 'albums')
+
+def albums_query():
+    return Album.objects.select_related('band').prefetch_related('songs')
+
+def songs_query():
+    return Song.objects.select_related('album')
 
 
 def reorder(ordered_ids, items):
@@ -17,22 +24,22 @@ def reorder(ordered_ids, items):
 
 
 def load_users(ids):
-    users = users_query.filter(id__in=ids)
+    users = users_query().filter(id__in=ids)
     return Promise.resolve(reorder(ids, users))
 
 
 def load_bands(ids):
-    bands = bands_query.filter(id__in=ids)
+    bands = bands_query().filter(id__in=ids)
     return Promise.resolve(reorder(ids, bands))
 
 
 def load_albums(ids):
-    albums = albums_query.filter(id__in=ids)
+    albums = albums_query().filter(id__in=ids)
     return Promise.resolve(reorder(ids, albums))
 
 
 def load_songs(ids):
-    songs = songs_query.filter(id__in=ids)
+    songs = songs_query().filter(id__in=ids)
     return Promise.resolve(reorder(ids, songs))
 
 
